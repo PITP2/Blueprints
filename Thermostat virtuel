@@ -24,10 +24,10 @@ trigger:
 
 action:
   service: >
-    {% if trigger.to_state.state < "20" %}
+    {% if trigger.state < 20 %}
       switch.turn_on
     {% else %}
-      {% if trigger.to_state.state > "21" %}
+      {% if trigger.state > 21 %}
         switch.turn_off
     {% endif %}
   target: !input target_switch
