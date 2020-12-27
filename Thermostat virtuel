@@ -30,7 +30,7 @@ action:
   - choose:
       - conditions:
           - condition: numeric_state
-            entity_id: !input 'capteur_temperature'
+            entity_id: !input capteur_temperature
             below: '20'
         sequence:
           - service: switch.turn_on
@@ -38,7 +38,7 @@ action:
               entity_id: !input target_switch
       - conditions:
           - condition: numeric_state
-            entity_id: !input 'capteur_temperature'
+            entity_id: !input capteur_temperature
             below: '21'
         sequence:
           - service: switch.turn_off
