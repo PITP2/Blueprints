@@ -3,7 +3,7 @@ blueprint:
   description: Thermostat régulant un actionneur ON/OFF sur détection de température
   domain: automation
   input:
-    detecteur_temperature:
+    capteur_temperature:
       name: Détecteur de température
       description: Ce détecteur servira pour la régulation de température
       selector:
@@ -17,17 +17,34 @@ blueprint:
         target:
           entity:
             domain: switch
-
 trigger:
-  platform: state
-  entity_id: !input detecteur_temperature
+  - platform: numeric_state
+    entity_id: !input capteur_temperature
+    above: '21'
+  - platform: numeric_state
+    entity_id: !input capteur_temperature
+    below: '20'
+condition: []
 
 action:
-  service: >
-    {% if trigger.state < 20 %}
-      switch.turn_on
-    {% else %}
-      {% if trigger.state > 21 %}
-        switch.turn_off
-    {% endif %}
-  target: !input target_switch
+  - choose:
+      - conditions:
+          - condition: numeric_state
+            entity_id: !input 'capteur_temperature'
+            below: '20'
+        sequence:
+          - service: switch.turn_on
+            data:
+              entity_id: !target_switch
+      - conditions:
+          - condition: numeric_state
+            entity_id: !input 'capteur_temperature'
+            below: '21'
+        sequence:
+          - service: switch.turn_off
+            data:
+             entity_id: !target_switch
+ 
+    default:
+
+mode: single
