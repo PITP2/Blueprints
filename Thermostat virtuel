@@ -35,7 +35,7 @@ action:
         sequence:
           - service: switch.turn_on
             data:
-              entity_id: !target_switch
+              entity_id: !input target_switch
       - conditions:
           - condition: numeric_state
             entity_id: !input 'capteur_temperature'
@@ -43,7 +43,7 @@ action:
         sequence:
           - service: switch.turn_off
             data:
-             entity_id: !target_switch
+             entity_id: !input target_switch
  
     default:
 
