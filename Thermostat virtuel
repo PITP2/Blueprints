@@ -1,0 +1,33 @@
+blueprint:
+  name: Thermostat Virtuel
+  description: Thermostat régulant un actionneur ON/OFF sur détection de température
+  domain: automation
+  input:
+    detecteur_temperature:
+      name: Détecteur de température
+      description: Ce détecteur servira pour la régulation de température
+      selector:
+        entity:
+          domain: sensor
+          device_class: temperature
+    target_switch:
+      name: Actionneurs
+      description: L'actionneur à controler.
+      selector:
+        target:
+          entity:
+            domain: switch
+
+trigger:
+  platform: state
+  entity_id: !input detecteur_temperature
+
+action:
+  service: >
+    {% if trigger.to_state.state < "20" %}
+      switch.turn_on
+    {% else %}
+      {% if trigger.to_state.state > "21" %}
+        switch.turn_off
+    {% endif %}
+  target: !input target_switch
