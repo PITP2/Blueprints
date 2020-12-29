@@ -36,7 +36,7 @@ action:
       - conditions:
           - condition: numeric_state
             entity_id: !input sensor_temperature
-            below: '21'
+            above: '21'
         sequence:
           - service: switch.turn_off
             target: !input 'target_switch'
