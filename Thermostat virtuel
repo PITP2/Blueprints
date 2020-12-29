@@ -32,16 +32,14 @@ action:
             below: '20'
         sequence:
           - service: switch.turn_on
-            data:
-            target: !input target_switch
+            target: !input 'target_switch'
       - conditions:
           - condition: numeric_state
             entity_id: !input sensor_temperature
             below: '21'
         sequence:
           - service: switch.turn_off
-            data:
-            target: !input target_switch
+            target: !input 'target_switch'
  
     default:
 
